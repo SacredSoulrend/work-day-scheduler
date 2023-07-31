@@ -12,6 +12,25 @@ $(function () {
   $(".saveBtn").on("click", function () {
     var key = $(this).closest(".time-block").attr("id"); 
     var description = $(this).siblings(".description").val();
+    
+    localStorage.setItem(key, description);
+
+    showNotification("Appointment added to local storage");
+
+    updateBlockStatus();
+  });
+
+  // Function to show the notification
+  function showNotification(message) {
+    const notification = $("<div class='notification'></div>").text(message);
+    $("#currentDay").after(notification);
+
+    setTimeout(function () {
+      notification.fadeOut("slow", function () {
+        $(this).remove();
+      });
+    }, 3000);
+  }  
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
@@ -40,8 +59,20 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  $(".time-block").each(function () {
+    const timeBlockId = $(this).attr("id");
+    const savedInput = localStorage.getItem(timeBlockId);
+
+    if (savedInput) {
+      $(this).find(".description").val(savedInput);
+    }
+  });
   // TODO: Add code to display the current date in the header of the page.
   var currentDate = dayjs().format("dddd, MMMM D");
   $("#currentDay").text(currentDate);
+
+    updateBlockStatus();
+
+    setInterval(updateBlockStatus, 60000);
 });
 

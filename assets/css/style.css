@@ -57,3 +57,11 @@ textarea {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+
+.notification {
+  background-color: #06aed5;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-top: 10px;
+}
